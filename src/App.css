@@ -107,10 +107,40 @@
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.photo-card img {
+.photo-frame {
+  position: relative;
   width: 100%;
-  height: auto;
+  aspect-ratio: var(--img-ratio);
+  background: #f2f2f2;
+}
+
+.photo-skeleton {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(110deg, #efefef 30%, #f8f8f8 45%, #efefef 60%);
+  background-size: 220% 100%;
+  animation: skeleton-shimmer 1.2s ease-in-out infinite;
+  transition: opacity 0.24s ease;
+}
+
+.photo-card img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
   display: block;
+  opacity: 0;
+  transition: opacity 0.26s ease;
+}
+
+.photo-card.is-loaded .photo-skeleton {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.photo-card.is-loaded img {
+  opacity: 1;
 }
 
 .photo-card:hover {
@@ -144,6 +174,16 @@
   color: var(--text-soft);
   text-align: center;
   font-size: 0.9rem;
+}
+
+@keyframes skeleton-shimmer {
+  0% {
+    background-position: 100% 0;
+  }
+
+  100% {
+    background-position: -100% 0;
+  }
 }
 
 @media (max-width: 1200px) {
@@ -183,5 +223,16 @@
   .chip {
     padding: 7px 12px;
     font-size: 0.9rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .photo-skeleton {
+    animation: none;
+  }
+
+  .photo-card img,
+  .photo-skeleton {
+    transition: none;
   }
 }

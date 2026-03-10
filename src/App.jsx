@@ -44,6 +44,8 @@ function createBatch(count, startIndex, categoryKey, activeTagKeys, seed) {
     return {
       id: `${seed}-${index}`,
       src,
+      width,
+      height,
       ratio,
       category: CATEGORIES.find((item) => item.key === categoryKey)?.label ?? '全部',
       tags: TAGS.filter((item) => activeTagKeys.includes(item.key)).map((item) => item.label),
@@ -56,6 +58,7 @@ function App() {
   const [activeCategory, setActiveCategory] = useState('all')
   const [activeTags, setActiveTags] = useState([])
   const [photos, setPhotos] = useState([])
+  const [loadedState, setLoadedState] = useState({})
   const [seed, setSeed] = useState(() => Date.now())
   const sentinelRef = useRef(null)
   const loadingRef = useRef(false)
@@ -75,6 +78,7 @@ function App() {
     const nextSeed = Date.now()
     setSeed(nextSeed)
     setPhotos(createBatch(INITIAL_LOAD, 0, nextCategory, nextTags, nextSeed))
+    setLoadedState({})
     loadingRef.current = false
   }, [])
 
@@ -118,6 +122,13 @@ function App() {
       prev.includes(tagKey) ? prev.filter((item) => item !== tagKey) : [...prev, tagKey],
     )
   }
+
+  const handleImageReady = useCallback((photoId) => {
+    setLoadedState((prev) => {
+      if (prev[photoId]) return prev
+      return { ...prev, [photoId]: true }
+    })
+  }, [])
 
   return (
     <div className="app-shell">
@@ -163,13 +174,24 @@ function App() {
 
         <section className="gallery-grid" aria-live="polite">
           {photos.map((photo, index) => (
-            <article key={photo.id} className="photo-card">
-              <img
-                src={photo.src}
-                alt={`美腿灵感图 ${index + 1}`}
-                loading="lazy"
-                referrerPolicy="no-referrer"
-              />
+            <article
+              key={photo.id}
+              className={`photo-card ${loadedState[photo.id] ? 'is-loaded' : 'is-loading'}`}
+              style={{ '--img-ratio': `${photo.width} / ${photo.height}` }}
+            >
+              <div className="photo-frame">
+                <div className="photo-skeleton" aria-hidden="true" />
+                <img
+                  src={photo.src}
+                  alt={`美腿灵感图 ${index + 1}`}
+                  loading="lazy"
+                  referrerPolicy="no-referrer"
+                  width={photo.width}
+                  height={photo.height}
+                  onLoad={() => handleImageReady(photo.id)}
+                  onError={() => handleImageReady(photo.id)}
+                />
+              </div>
               <div className="overlay">
                 <span>{photo.category}</span>
                 <span>{photo.tags.join(' · ') || '精选'}</span>
