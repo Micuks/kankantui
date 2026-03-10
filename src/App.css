@@ -1,0 +1,255 @@
+:root {
+  --bg-0: #05070d;
+  --bg-1: #0f1424;
+  --bg-2: #1a2440;
+  --surface: rgba(18, 24, 40, 0.7);
+  --surface-strong: rgba(24, 32, 52, 0.95);
+  --text-main: #f5f7fb;
+  --text-soft: #9ca6be;
+  --line: rgba(255, 255, 255, 0.12);
+  --accent: #7dd3fc;
+  --accent-2: #f9a8d4;
+  --shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+}
+
+.app-shell {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 12% 18%, rgba(249, 168, 212, 0.24), transparent 38%),
+    radial-gradient(circle at 90% 8%, rgba(125, 211, 252, 0.2), transparent 40%),
+    linear-gradient(150deg, var(--bg-0), var(--bg-1) 48%, var(--bg-2));
+}
+
+.ambient {
+  position: absolute;
+  filter: blur(64px);
+  border-radius: 999px;
+  opacity: 0.26;
+  pointer-events: none;
+}
+
+.ambient-left {
+  top: -180px;
+  left: -140px;
+  width: 480px;
+  height: 480px;
+  background: #60a5fa;
+}
+
+.ambient-right {
+  right: -130px;
+  bottom: -220px;
+  width: 520px;
+  height: 520px;
+  background: #f472b6;
+}
+
+.layout {
+  position: relative;
+  z-index: 2;
+  width: min(1480px, 100% - 40px);
+  margin: 0 auto;
+  padding: 36px 0 48px;
+  animation: rise-in 0.55s ease-out;
+}
+
+.hero {
+  margin-bottom: 24px;
+}
+
+.kicker {
+  margin: 0;
+  color: var(--accent);
+  letter-spacing: 0.3em;
+  font-size: 0.73rem;
+  font-weight: 700;
+}
+
+h1 {
+  margin: 12px 0 10px;
+  font-size: clamp(2rem, 5vw, 3.4rem);
+  line-height: 1.06;
+}
+
+.description {
+  margin: 0;
+  color: var(--text-soft);
+  max-width: 760px;
+}
+
+.summary {
+  margin: 14px 0 0;
+  color: #dbe8ff;
+  font-size: 0.95rem;
+}
+
+.panel {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+.group {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 14px;
+  backdrop-filter: blur(8px);
+}
+
+.group h2 {
+  margin: 0 0 10px;
+  font-size: 0.95rem;
+  color: #d7e4ff;
+  font-weight: 700;
+}
+
+.chip-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chip {
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.05);
+  color: #d8def0;
+  border-radius: 999px;
+  padding: 8px 14px;
+  cursor: pointer;
+  transition: all 0.24s ease;
+}
+
+.chip:hover {
+  transform: translateY(-1px);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.chip.active {
+  color: #081122;
+  border-color: transparent;
+  background: linear-gradient(120deg, var(--accent), var(--accent-2));
+  box-shadow: 0 6px 16px rgba(125, 211, 252, 0.25);
+}
+
+.gallery-grid {
+  column-count: 4;
+  column-gap: 16px;
+}
+
+.photo-card {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  margin: 0 0 16px;
+  border-radius: 16px;
+  overflow: hidden;
+  background: var(--surface-strong);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: var(--shadow);
+  transform: translateY(0);
+  transition: transform 0.32s ease, box-shadow 0.32s ease, border-color 0.32s ease;
+  animation: card-in 0.42s ease;
+}
+
+.photo-card img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.overlay {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 12px;
+  color: #eff6ff;
+  font-size: 0.78rem;
+  background: linear-gradient(to top, rgba(7, 11, 24, 0.9), rgba(7, 11, 24, 0));
+  transform: translateY(16px);
+  opacity: 0;
+  transition: all 0.28s ease;
+}
+
+.photo-card:hover {
+  transform: translateY(-6px) scale(1.01);
+  border-color: rgba(125, 211, 252, 0.62);
+  box-shadow: 0 26px 40px rgba(2, 6, 23, 0.55);
+}
+
+.photo-card:hover .overlay {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.load-hint {
+  margin: 10px 0 0;
+  padding: 18px 0 26px;
+  color: var(--text-soft);
+  text-align: center;
+  font-size: 0.92rem;
+}
+
+@media (max-width: 1200px) {
+  .gallery-grid {
+    column-count: 3;
+  }
+}
+
+@media (max-width: 920px) {
+  .layout {
+    width: min(1480px, 100% - 24px);
+  }
+
+  .panel {
+    grid-template-columns: 1fr;
+  }
+
+  .gallery-grid {
+    column-count: 2;
+  }
+}
+
+@media (max-width: 640px) {
+  .layout {
+    padding-top: 28px;
+  }
+
+  .gallery-grid {
+    column-count: 1;
+  }
+
+  .chip {
+    padding: 7px 12px;
+    font-size: 0.9rem;
+  }
+}
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes card-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
