@@ -23,6 +23,19 @@ const TAGS = [
   { key: 'art', label: '艺术', terms: ['artistic', 'moody'] },
 ]
 
+const UNSPLASH_PHOTO_IDS = [
+  '1483985988355-763728e1935b',
+  '1464863979621-258859e62245',
+  '1496747611176-843222e1e57c',
+  '1524504388940-b1c1722653e1',
+  '1494790108377-be9c29b29330',
+  '1485230895905-ec40ba36b9bc',
+  '1515886657613-9f3515b0c78f',
+  '1521572163474-6864f9cf17ab',
+  '1529139574466-a303027c1d8b',
+  '1487412720507-e7ab37603c6f',
+]
+
 function buildQuery(categoryKey, activeTagKeys) {
   const categoryTerms = CATEGORIES.find((item) => item.key === categoryKey)?.terms ?? []
   const tagTerms = TAGS.filter((item) => activeTagKeys.includes(item.key)).flatMap((item) => item.terms)
@@ -39,7 +52,8 @@ function createBatch(count, startIndex, categoryKey, activeTagKeys, seed) {
     const width = 420 + ((index + seed) % 4) * 40
     const height = 620 + ((index * 53 + seed) % 5) * 90
     const ratio = (height / width).toFixed(2)
-    const src = `https://picsum.photos/${width}/${height}?random=${seed + index}`
+    const photoId = UNSPLASH_PHOTO_IDS[(seed + index) % UNSPLASH_PHOTO_IDS.length]
+    const src = `https://images.unsplash.com/photo-${photoId}?auto=format&fit=crop&w=${width}&h=${height}&q=80`
 
     return {
       id: `${seed}-${index}`,

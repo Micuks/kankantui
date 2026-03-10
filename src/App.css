@@ -31,6 +31,33 @@
   gap: 14px;
   padding: 14px 0;
   background: var(--bg);
+  isolation: isolate;
+}
+
+.top-bar::before,
+.top-bar::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 28px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.top-bar::before {
+  left: 0;
+  background: linear-gradient(to right, var(--bg), transparent);
+}
+
+.top-bar::after {
+  right: 0;
+  background: linear-gradient(to left, var(--bg), transparent);
+}
+
+.top-bar > * {
+  position: relative;
+  z-index: 2;
 }
 
 .top-bar h1 {
