@@ -23,36 +23,178 @@ const TAGS = [
   { key: 'art', label: '艺术', terms: ['artistic', 'moody'] },
 ]
 
-const UNSPLASH_PHOTO_IDS = [
-  '1483985988355-763728e1935b',
-  '1464863979621-258859e62245',
-  '1496747611176-843222e1e57c',
-  '1524504388940-b1c1722653e1',
-  '1494790108377-be9c29b29330',
-  '1485230895905-ec40ba36b9bc',
-  '1515886657613-9f3515b0c78f',
-  '1521572163474-6864f9cf17ab',
-  '1529139574466-a303027c1d8b',
-  '1487412720507-e7ab37603c6f',
-]
+const CATEGORY_PHOTO_IDS = {
+  street: [
+    '1483985988355-763728e1935b',
+    '1494790108377-be9c29b29330',
+    '1487412720507-e7ab37603c6f',
+    '1469474968028-56623f02e42e',
+    '1475180098004-ca77a66827be',
+    '1492446845049-9c50cc313f00',
+    '1494526585095-c41746248156',
+    '1496497243327-9dccd845c35f',
+    '1503341455253-b2e723bb3dbb',
+    '1506084868230-bb9d95c24759',
+    '1507003211169-0a1dd7228f2d',
+    '1518837695005-2083093ee35b',
+    '1521572267360-ee0c2909d518',
+    '1542291026-7eec264c27ff',
+  ],
+  beach: [
+    '1464863979621-258859e62245',
+    '1496747611176-843222e1e57c',
+    '1485230895905-ec40ba36b9bc',
+    '1489515217757-5fd1be406fef',
+    '1500530855697-b586d89ba3ee',
+    '1504609813442-a8924e83f76e',
+    '1506869640319-fe1a24fd76dc',
+    '1509631179647-0177331693ae',
+    '1519741497674-611481863552',
+    '1526510747491-58f928ec870f',
+    '1530841377377-3ff06c0ca713',
+    '1545296664-39db0d7e2f8d',
+    '1551524164-687a55dd1126',
+    '1560243563-062bfc001d68',
+  ],
+  sport: [
+    '1521572163474-6864f9cf17ab',
+    '1529139574466-a303027c1d8b',
+    '1508214751196-bcfd4ca60f91',
+    '1509967419530-da38b4704bc6',
+    '1517841905240-472988babdf9',
+    '1520970014086-2208d157c9e2',
+    '1521146764736-56c929d59c83',
+    '1536766768598-e09213fdcf22',
+    '1545239351-1141bd82e8a6',
+    '1546512565-39d4dc75e556',
+    '1547190028-7e0d4c53f9b5',
+    '1552872673-9b7b99711ebb',
+    '1557089521-72b242a8c3f8',
+    '1563720223185-11003d516935',
+  ],
+  retro: [
+    '1515886657613-9f3515b0c78f',
+    '1469334031218-e382a71b716b',
+    '1483982258113-b72862e6cff6',
+    '1485965120184-e220f721d03e',
+    '1512436991641-6745cdb1723f',
+    '1479936343636-73cdc5aae0c3',
+    '1472099645785-5658abf4ff4e',
+    '1496449903678-68ddcb189a24',
+    '1498551172509-8e1e22ad20d1',
+    '1518622358385-8ea7d0794bf6',
+    '1519340241574-2cec6aef0c01',
+    '1521334884684-d80222895322',
+    '1535591273668-578e31182c4f',
+    '1543083477-4f785aeafaa9',
+  ],
+  indoor: [
+    '1524504388940-b1c1722653e1',
+    '1521119989659-a83eee488004',
+    '1500917293891-ef795e70e1f6',
+    '1519996529931-28324d5a630e',
+    '1524253482453-3fed8d2fe12b',
+    '1529626455594-4ff0802cfb7e',
+    '1534528741775-53994a69daeb',
+    '1535713875002-d1d0cf377fde',
+    '1539109136881-3be0616acf4b',
+    '1544005313-94ddf0286df2',
+    '1548544144-421d54d306c9',
+    '1550614000-4895a10e1bfd',
+    '1551986782-d0169b3f8fa7',
+    '1564420228450-dfa5bc8a3dfb',
+  ],
+  portrait: [
+    '1503342217505-b0a15ec3261c',
+    '1539533113208-f6df8cc8b543',
+    '1544717302-de2939b7ef71',
+    '1549060279-7e168fcee0c2',
+    '1549294413-26f195200c16',
+    '1551024601-bec78aea704b',
+    '1551232864-3f0890e580d9',
+    '1551854838-212c9a4d593d',
+    '1552374196-c4e7ffc6e126',
+    '1553440569-bcc63803a83d',
+    '1554080353-a576cf803bda',
+    '1555685812-4b943f1cb0eb',
+    '1556228720-195a672e8a03',
+    '1559563362-c667ba5f5480',
+  ],
+}
 
-function buildQuery(categoryKey, activeTagKeys) {
-  const categoryTerms = CATEGORIES.find((item) => item.key === categoryKey)?.terms ?? []
-  const tagTerms = TAGS.filter((item) => activeTagKeys.includes(item.key)).flatMap((item) => item.terms)
+const TAG_PHOTO_IDS = {
+  sexy: [
+    '1494526585095-c41746248156',
+    '1551024601-bec78aea704b',
+    '1551232864-3f0890e580d9',
+    '1551854838-212c9a4d593d',
+    '1552374196-c4e7ffc6e126',
+    '1559563362-c667ba5f5480',
+  ],
+  elegant: [
+    '1483982258113-b72862e6cff6',
+    '1518622358385-8ea7d0794bf6',
+    '1519340241574-2cec6aef0c01',
+    '1535591273668-578e31182c4f',
+    '1539533113208-f6df8cc8b543',
+    '1549060279-7e168fcee0c2',
+  ],
+  fresh: [
+    '1489515217757-5fd1be406fef',
+    '1500530855697-b586d89ba3ee',
+    '1506869640319-fe1a24fd76dc',
+    '1519741497674-611481863552',
+    '1545296664-39db0d7e2f8d',
+    '1560243563-062bfc001d68',
+  ],
+  vivid: [
+    '1521572163474-6864f9cf17ab',
+    '1529139574466-a303027c1d8b',
+    '1508214751196-bcfd4ca60f91',
+    '1517841905240-472988babdf9',
+    '1545239351-1141bd82e8a6',
+    '1557089521-72b242a8c3f8',
+  ],
+  casual: [
+    '1494790108377-be9c29b29330',
+    '1469474968028-56623f02e42e',
+    '1475180098004-ca77a66827be',
+    '1492446845049-9c50cc313f00',
+    '1503341455253-b2e723bb3dbb',
+    '1521572267360-ee0c2909d518',
+  ],
+  art: [
+    '1515886657613-9f3515b0c78f',
+    '1521119989659-a83eee488004',
+    '1529626455594-4ff0802cfb7e',
+    '1535713875002-d1d0cf377fde',
+    '1539109136881-3be0616acf4b',
+    '1548544144-421d54d306c9',
+  ],
+}
 
-  const allTerms = ['legs', 'fashion', 'beauty', ...categoryTerms, ...tagTerms]
-  return allTerms.map((term) => encodeURIComponent(term)).join(',')
+const ALL_PHOTO_IDS = [...new Set(Object.values(CATEGORY_PHOTO_IDS).flat())]
+
+function getPhotoPool(categoryKey, activeTagKeys) {
+  const categoryPool =
+    categoryKey === 'all' ? ALL_PHOTO_IDS : CATEGORY_PHOTO_IDS[categoryKey] ?? ALL_PHOTO_IDS
+
+  if (!activeTagKeys.length) return categoryPool
+
+  const tagPool = activeTagKeys.flatMap((tagKey) => TAG_PHOTO_IDS[tagKey] ?? [])
+  return [...new Set([...categoryPool, ...tagPool])]
 }
 
 function createBatch(count, startIndex, categoryKey, activeTagKeys, seed) {
-  const query = buildQuery(categoryKey, activeTagKeys)
+  const photoPool = getPhotoPool(categoryKey, activeTagKeys)
+  const safePool = photoPool.length ? photoPool : ALL_PHOTO_IDS
 
   return Array.from({ length: count }, (_, idx) => {
     const index = startIndex + idx
     const width = 420 + ((index + seed) % 4) * 40
     const height = 620 + ((index * 53 + seed) % 5) * 90
     const ratio = (height / width).toFixed(2)
-    const photoId = UNSPLASH_PHOTO_IDS[(seed + index) % UNSPLASH_PHOTO_IDS.length]
+    const photoId = safePool[(seed + index) % safePool.length]
     const src = `https://images.unsplash.com/photo-${photoId}?auto=format&fit=crop&w=${width}&h=${height}&q=80`
 
     return {
@@ -63,7 +205,6 @@ function createBatch(count, startIndex, categoryKey, activeTagKeys, seed) {
       ratio,
       category: CATEGORIES.find((item) => item.key === categoryKey)?.label ?? '全部',
       tags: TAGS.filter((item) => activeTagKeys.includes(item.key)).map((item) => item.label),
-      query,
     }
   })
 }
