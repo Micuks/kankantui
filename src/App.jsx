@@ -39,7 +39,7 @@ function createBatch(count, startIndex, categoryKey, activeTagKeys, seed) {
     const width = 420 + ((index + seed) % 4) * 40
     const height = 620 + ((index * 53 + seed) % 5) * 90
     const ratio = (height / width).toFixed(2)
-    const src = `https://source.unsplash.com/random/${width}x${height}/?${query}&sig=${seed + index}`
+    const src = `https://picsum.photos/${width}/${height}?random=${seed + index}`
 
     return {
       id: `${seed}-${index}`,
