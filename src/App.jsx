@@ -47,6 +47,7 @@ function createBatch(count, startIndex, categoryKey, activeTagKeys, seed) {
       ratio,
       category: CATEGORIES.find((item) => item.key === categoryKey)?.label ?? '全部',
       tags: TAGS.filter((item) => activeTagKeys.includes(item.key)).map((item) => item.label),
+      query,
     }
   })
 }
@@ -120,18 +121,13 @@ function App() {
 
   return (
     <div className="app-shell">
-      <div className="ambient ambient-left" />
-      <div className="ambient ambient-right" />
-
       <main className="layout">
-        <header className="hero">
-          <p className="kicker">KAN KAN TUI GALLERY</p>
+        <header className="top-bar">
           <h1>看看腿</h1>
-          <p className="description">暗色时尚瀑布流图库，持续发现街拍、海边、运动与复古灵感。</p>
           <p className="summary">当前筛选：{selectedSummary}</p>
         </header>
 
-        <section className="panel">
+        <section className="filter-bar" aria-label="筛选栏">
           <div className="group">
             <h2>分类</h2>
             <div className="chip-wrap">
